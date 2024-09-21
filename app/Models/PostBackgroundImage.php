@@ -12,4 +12,10 @@ class PostBackgroundImage extends Model
     protected $table = 'post_background_images';
 
     protected $fillable = ['name', 'image'];
+
+     // Relationship with Posts
+     public function posts()
+     {
+         return $this->hasMany(Post::class);
+     }
 }

@@ -104,7 +104,28 @@
        
         
       </li>
-    
+      <li>
+
+          @if(Auth::check())
+          @if(Auth::user()->role === 'admin')
+
+          <a href="{{ route('posts.index') }}" class="logo d-flex align-items-center">
+            
+          Post
+          </a>
+          @elseif(Auth::user()->role === 'manager')
+
+          <a href="{{ route('posts.index') }}" class="logo d-flex align-items-center">
+            
+          Post
+          </a>
+
+          @endif
+          @endif
+
+
+
+          </li>
 
     </ul>
   </li><!-- End Components Nav -->

@@ -7,6 +7,7 @@ use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PostSubCategoryController;
 use App\Http\Controllers\PostBackgroundImageController;
 use App\Http\Controllers\PostFileController;
+use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,5 +58,11 @@ Route::middleware(['auth', 'role:manager'])->group(function(){
     Route::get('manager/dashboard', [HomeController::class, 'managerdashboard'])->name('manager.dashboard');
 });
 
+// for post
+Route::resource('posts', PostController::class);
+
+
+/// listing subgategory under category
+Route::get('/get-subcategories/{categoryId}', [PostController::class, 'getSubcategories']);
  
-require __DIR__.'/auth.php';
+require __DIR__.'/auth.php'; 

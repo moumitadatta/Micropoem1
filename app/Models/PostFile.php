@@ -15,4 +15,10 @@ class PostFile extends Model
           'name',
           'image',
       ];
+
+       // Relationship with Posts
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

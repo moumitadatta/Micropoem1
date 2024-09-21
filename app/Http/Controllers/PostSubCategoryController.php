@@ -16,7 +16,7 @@ class PostSubCategoryController extends Controller
 {
     public function index()
     {
-        $subCategories = PostSubCategory::with('category')->get();
+        $subCategories = PostSubCategory::allwith('category')->get();
 
        
         return view('admin.sub-categories.index', compact('subCategories'));

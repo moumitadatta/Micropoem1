@@ -20,4 +20,10 @@ class PostCategory extends Model
     {
         return $this->hasMany(PostSubcategory::class);
     }
+
+     // Relationship with Posts
+     public function posts()
+     {
+         return $this->hasMany(Post::class);
+     }
 }

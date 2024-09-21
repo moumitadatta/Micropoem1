@@ -19,6 +19,13 @@ class PostSubCategory extends Model
 
       public function category()
       {
-          return $this->belongsTo(PostCategory::class);
+
+          return $this->belongsTo(PostCategory::class, 'category_id'); // Foreign key in the subcategories table
       }
+
+       // Relationship with Posts
+        public function posts()
+        {
+            return $this->hasMany(Post::class);
+        }
 }
