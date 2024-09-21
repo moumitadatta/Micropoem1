@@ -1,5 +1,5 @@
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -16,34 +16,7 @@
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js')}}"></script>
 
-  <script type="text/javascript">
-    function updateSubcategories(categoryId) {
-        let subcategoryDropdown = $('#subcategory');
-        subcategoryDropdown.empty(); // Clear previous options
-        subcategoryDropdown.append('<option value="">Select Subcategory</option>'); // Default option
-
-        if (categoryId) {
-            $.ajax({
-                url: '/get-subcategories/' + categoryId,
-                type: 'GET',
-                success: function(data) {
-                    if (data.length > 0) {
-                        data.forEach(function(subcategory) {
-                            subcategoryDropdown.append(
-                                '<option value="' + subcategory.id + '">' + subcategory.name + '</option>'
-                            );
-                        });
-                    } else {
-                        subcategoryDropdown.append('<option value="">No Subcategories Available</option>');
-                    }
-                },
-                error: function() {
-                    alert('Error fetching subcategories');
-                }
-            });
-        }
-    }
-</script>
+ 
   
 </body>
 

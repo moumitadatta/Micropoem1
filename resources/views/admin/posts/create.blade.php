@@ -23,7 +23,7 @@
 
            <div class="form-group">
             <label for="category_id">Category:</label>
-            <select name="category_id"  id="category" class="form-control" required >
+            <select name="post_category_id"  id="category" class="form-control" required >
                 <option value="">Select Category</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -34,15 +34,18 @@
                 <!-- Subcategory Dropdown -->
             <div class="form-group">
             <label for="">SubCategory:</label>
-            <select id="subcategory" name="subcategory_id" class="form-control" class="form-control">
+            <select id="subcategory" name="post_subcategory_id" class="form-control" class="form-control">
                 <option value="">Select Subcategory</option> 
+                @foreach ($subCategories as $sub)
+                    <option value="{{ $sub->id }}">{{ $sub->name }}</option>
+                @endforeach
             </select>
             </div>
             <br>
                 <!-- Background Image Dropdown -->
             <div class="form-group">
                 <label for="background_image">Background Image</label>
-                <select id="background_image" name="background_image_id" class="form-control">
+                <select id="background_image" name="post_background_image_id" class="form-control">
                     <option value="">Select Background Image</option>
                     @foreach($backgroundImages as $backgroundImage)
                         <option value="{{ $backgroundImage->id }}">{{ $backgroundImage->image }}</option>
@@ -82,3 +85,34 @@
 </section>
 </main>
  @endsection
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script type="text/javascript">
+    function updateSubcategories(categoryId) {
+
+    console.log(categoryId);
+        let subcategoryDropdown = $('#subcategory');
+        subcategoryDropdown.empty(); // Clear previous options
+        subcategoryDropdown.append('<option value="">Select Subcategory</option>'); // Default option
+
+        if (categoryId) {
+            $.ajax({
+                url: '/get-subcategories/' + categoryId,
+                type: 'GET',
+                success: function(data) {
+                    if (data.length > 0) {
+                        data.forEach(function(subcategory) {
+                            subcategoryDropdown.append(
+                                '<option value="' + subcategory.id + '">' + subcategory.name + '</option>'
+                            );
+                        });
+                    } else {
+                        subcategoryDropdown.append('<option value="">No Subcategories Available</option>');
+                    }
+                },
+                error: function() {
+                    alert('Error fetching subcategories');
+                }
+            });
+        }
+    }
+</script>

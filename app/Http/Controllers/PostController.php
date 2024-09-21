@@ -25,27 +25,37 @@ class PostController extends Controller
         $backgroundImages = PostBackgroundImage::all();
         $postfiles = PostFile::all(); 
          
-        return view('admin.posts.create', compact('categories', 'backgroundImages','postfiles'));
+        return view('admin.posts.create', compact('categories', 'backgroundImages','postfiles','subCategories'));
 
     }
 
     public function store(Request $request)
     {
 
-        return $request;
+      // return $request;
         $request->validate([ 
             'post_name' => 'required|string|max:255',
             'post_content' => 'required|string',
-            'post_category_id' => 'required|exists:post_category_id,id',
-            'post_sub_category_id' => 'required|exists:post_sub_category_id,id',
-            'post_background_id' => 'required',
+            'post_category_id' => 'required|exists:post_category,id',
+            'post_subcategory_id' => 'required',
+            'post_background_image_id' => 'required',
             'post_file_id' => 'required',
             'post_content' => 'required',
             'point' => 'required'
             // Add other validations as necessary
         ]);
 
-        Post::create($request->all());
+        Post::create([
+            'post_name' => $request->post_name,
+            'post_content' => $request->post_content,
+            'post_category_id' => $request->post_category_id,
+            'post_subcategory_id' => $request->post_subcategory_id,
+            'post_background_image_id' => $request->post_background_image_id,
+            'post_file_id' => $request->post_file_id,
+            'post_content' => $request->post_content,
+            'point' => $request->point,
+        ]);
+        // Post::create($request->all());
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
@@ -56,7 +66,11 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories = PostCategory::all();
+        $subCategories = PostSubCategory::with('category')->get();
+        $backgroundImages = PostBackgroundImage::all();
+        $postfiles = PostFile::all(); 
+        return view('admin.posts.edit', compact('post','categories', 'backgroundImages','postfiles','subCategories'));
     }
 
     public function update(Request $request, Post $post)
@@ -64,9 +78,9 @@ class PostController extends Controller
         $request->validate([
             'post_name' => 'required|string|max:255',
             'post_content' => 'required|string',
-            'post_category_id' => 'required|exists:post_category_id,id',
-            'post_sub_category_id' => 'required|exists:post_sub_category_id,id',
-            'post_background_id' => 'required',
+            'post_category_id' => 'required|exists:post_category,id',
+            'post_subcategory_id' => 'required|exists:post_sub_categories,id',
+            'post_background_image_id' => 'required',
             'post_file_id' => 'required',
             'post_content' => 'required',
             'point' => 'required'
@@ -88,3 +102,4 @@ class PostController extends Controller
         return response()->json($subcategories);
     }
 }
+
